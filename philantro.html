@@ -10,6 +10,13 @@
         .back:hover { text-decoration: underline; }
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e1e4e8; }
         h1 { border-bottom: 1px solid #eaecef; padding-bottom: 10px; margin-top: 0; color: #24292e; }
+
+        /* --- LE CORRECTIF POUR LA BARRE DE DÉFILEMENT CUSDIS --- */
+        #cusdis_thread iframe {
+            min-height: 550px !important; /* Force une hauteur généreuse pour l'iframe */
+            height: 100% !important;
+            border: none !important;
+        }
     </style>
 </head>
 <body>
@@ -18,15 +25,16 @@
         <h1>🤝 Suivi Philanthropie</h1>
         <p>Espace de discussion pour la gestion et le suivi de nos projets de philanthropie.</p>
         <hr style="border: 0; border-top: 1px solid #e1e4e8; margin: 30px 0;">
-        <!-- ZONE DE COMMENTAIRES AGRANDIE ET LISIBLE -->
-<div id="cusdis_thread"
-  style="min-height: 600px; width: 100%; margin-top: 20px;"
-  data-host="https://cusdis.com"
-  data-app-id="9b45fdfb-af9b-4fcf-a690-576f13554c33"
-  data-page-id="METS_ICI_LE_PAGE_ID_DU_PROJET" 
-  data-page-url="METS_ICI_L_URL_DU_PROJET"
-  data-page-title="METS_ICI_LE_TITRE_DU_PROJET">
-</div>
+        
+        <!-- Le widget Cusdis -->
+        <div id="cusdis_thread"
+          data-host="https://cusdis.com"
+          data-app-id="9b45fdfb-af9b-4fcf-a690-576f13554c33"
+          data-page-id="ares_philantro" 
+          data-page-url="https://gogoulet.github.io/aresgiscus/philantro.html"
+          data-page-title="Philantro">
+        </div>
+
         <script>window.CUSDIS_LOCALE = {"powered_by": "Propulsé par Cusdis","post": "Envoyer","loading": "Chargement...","placeholder": "Écrivez votre message ici...","nickname": "Votre prénom / nom","mail": "Courriel (optionnel)","sending": "Envoi..."}</script>
         <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
     </div>
