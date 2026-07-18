@@ -1,4 +1,67 @@
-<div class="grid">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ares World - Suivi de Projets</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            background: #f6f8fa; 
+            color: #24292e; 
+        }
+        .header { 
+            text-align: center; 
+            margin-bottom: 40px; 
+        }
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+        }
+        @media (max-width: 600px) { 
+            .grid { grid-template-columns: 1fr; } 
+        }
+        .card { 
+            background: white; 
+            padding: 25px; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            border: 1px solid #e1e4e8; 
+            transition: transform 0.2s; 
+        }
+        .card:hover { 
+            transform: translateY(-2px); 
+        }
+        h2 { 
+            margin-top: 0; 
+            color: #24292e; 
+        }
+        a { 
+            display: inline-block; 
+            margin-top: 15px; 
+            color: #0366d6; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+        a:hover { 
+            text-decoration: underline; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Ares World - Plateforme de Suivi</h1>
+        <p>Espace d'échange et historique des projets</p>
+    </div>
+
+    <!-- Début de la grille corrigée -->
+    <div class="grid">
+        
         <div class="card">
             <h2>🤝 Philantro</h2>
             <p>Suivi et coordination de nos initiatives et projets philanthropiques publics.</p>
@@ -23,17 +86,20 @@
             <a href="nyxetatlas.html">Accéder à la discussion →</a>
         </div>
 
-        <!-- NOUVELLE PAGE 5 -->
         <div class="card">
             <h2>🐺 Nyx et Luca</h2>
             <p>Discussions, coordination et historique pour NyxEtLuca.</p>
             <a href="nyxetluca.html">Accéder à la discussion →</a>
         </div>
 
-        <!-- NOUVELLE PAGE 6 -->
         <div class="card">
             <h2>🦅 Nyx et David</h2>
             <p>Discussions, coordination et historique pour NyxEtDavid.</p>
             <a href="nyxetdavid.html">Accéder à la discussion →</a>
         </div>
+
     </div>
+    <!-- Fin de la grille -->
+
+</body>
+</html>
