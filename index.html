@@ -58,101 +58,241 @@
     </script>
 
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
-            max-width: 900px; 
-            margin: 40px auto; 
-            padding: 20px; 
-            background: #f6f8fa; 
-            color: #24292e; 
+        :root {
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --border-color: #e2e8f0;
+            --border-hover: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --accent-blue: #2563eb;
+            --accent-blue-hover: #1d4ed8;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
         }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: var(--bg-main); 
+            color: var(--text-primary); 
+            padding: 40px 20px; 
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* En-tête */
         .header { 
             text-align: center; 
             margin-bottom: 40px; 
         }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Grille de cartes */
         .grid { 
             display: grid; 
-            grid-template-columns: 1fr 1fr; 
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
             gap: 20px; 
         }
-        @media (max-width: 600px) { 
-            .grid { grid-template-columns: 1fr; } 
-        }
+
+        /* Carte de projet - Rendu globalement cliquable */
         .card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 8px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
-            border: 1px solid #e1e4e8; 
-            transition: transform 0.2s; 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 12px; 
+            padding: 24px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow-sm); 
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); 
+            position: relative;
+            overflow: hidden;
         }
+
         .card:hover { 
-            transform: translateY(-2px); 
+            transform: translateY(-3px); 
+            border-color: var(--border-hover);
+            box-shadow: var(--shadow-md);
         }
-        h2 { 
-            margin-top: 0; 
-            color: #24292e; 
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--accent-blue);
+            opacity: 0;
+            transition: opacity 0.2s ease;
         }
-        a { 
-            display: inline-block; 
-            margin-top: 15px; 
-            color: #0366d6; 
-            text-decoration: none; 
-            font-weight: bold; 
+
+        .card:hover::before {
+            opacity: 1;
         }
-        a:hover { 
-            text-decoration: underline; 
+
+        /* Contenu de la carte */
+        .card-top {
+            margin-bottom: 20px;
+        }
+
+        .card h2 { 
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 19px; 
+            font-weight: 600;
+            color: var(--text-primary); 
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Pied de la carte / Action */
+        .card-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            transition: color 0.15s ease;
+        }
+
+        .card:hover .card-action {
+            color: var(--accent-blue-hover);
+        }
+
+        .card-action .arrow {
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover .card-action .arrow {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 480px) { 
+            .grid { grid-template-columns: 1fr; } 
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1>Ares World - Plateforme de Suivi</h1>
-        <p>Espace d'échange et historique des projets</p>
+    <div class="container">
+        <div class="header">
+            <h1>Ares World - Plateforme de Suivi</h1>
+            <p>Espace d'échange et historique des projets</p>
+        </div>
+
+        <!-- Début de la grille -->
+        <main class="grid">
+            
+            <a href="philantro.html" class="card">
+                <div class="card-top">
+                    <h2>🤝 Philantro</h2>
+                    <p>Suivi et coordination de nos initiatives et projets philanthropiques publics.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="securite.html" class="card">
+                <div class="card-top">
+                    <h2>🔒 Sécurité</h2>
+                    <p>Espace dédié aux protocoles, audits et suivis de sécurité.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="routes.html" class="card">
+                <div class="card-top">
+                    <h2>🗺️ Routes</h2>
+                    <p>Planification, logistique et suivi des trajets et itinéraires.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="nyxetatlas.html" class="card">
+                <div class="card-top">
+                    <h2>🌌 Nyx et Atlas</h2>
+                    <p>Discussions, coordination et historique pour NyxEtAtlas.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="nyxetluca.html" class="card">
+                <div class="card-top">
+                    <h2>🐺 Nyx et Luca</h2>
+                    <p>Discussions, coordination et historique pour NyxEtLuca.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="nyxetdante.html" class="card">
+                <div class="card-top">
+                    <h2>🦅 Nyx et Dante</h2>
+                    <p>Discussions, coordination et historique pour NyxEtDante.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+            <a href="nyxetdavid.html" class="card">
+                <div class="card-top">
+                    <h2>🤝 Nyx et David</h2>
+                    <p>Discussions, coordination et historique pour NyxEtDavid.</p>
+                </div>
+                <div class="card-action">
+                    Accéder à la discussion <span class="arrow">→</span>
+                </div>
+            </a>
+
+        </main>
+        <!-- Fin de la grille -->
     </div>
-
-    <!-- Début de la grille -->
-    <div class="grid">
-        
-        <div class="card">
-            <h2>🤝 Philantro</h2>
-            <p>Suivi et coordination de nos initiatives et projets philanthropiques publics.</p>
-            <a href="philantro.html">Accéder à la discussion →</a>
-        </div>
-
-        <div class="card">
-            <h2>🔒 Sécurité</h2>
-            <p>Espace dédié aux protocoles, audits et suivis de sécurité.</p>
-            <a href="securite.html">Accéder à la discussion →</a>
-        </div>
-
-        <div class="card">
-            <h2>🛣️ Routes</h2>
-            <p>Planification, logistique et suivi des trajets et itinéraires.</p>
-            <a href="routes.html">Accéder à la discussion →</a>
-        </div>
-
-        <div class="card">
-            <h2>🌌 Nyx et Atlas</h2>
-            <p>Discussions, coordination et historique pour NyxEtAtlas.</p>
-            <a href="nyxetatlas.html">Accéder à la discussion →</a>
-        </div>
-
-        <div class="card">
-            <h2>🐺 Nyx et Luca</h2>
-            <p>Discussions, coordination et historique pour NyxEtLuca.</p>
-            <a href="nyxetluca.html">Accéder à la discussion →</a>
-        </div>
-
-        <div class="card">
-            <h2>🦅 Nyx et Dante</h2>
-            <p>Discussions, coordination et historique pour NyxEtDante.</p>
-            <a href="nyxetdavid.html">Accéder à la discussion →</a>
-        </div>
-
-    </div>
-    <!-- Fin de la grille -->
 
 </body>
 </html>
+```<FollowUp>
+
+<ElicitationsGroup>
+</ElicitationsGroup>
+</FollowUp>
