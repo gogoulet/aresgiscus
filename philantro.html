@@ -3,46 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suivi - Philantro</title>
+    <title>Ares World - Suivi Philanthropie</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f6f8fa; color: #24292e; }
-        .back { margin-bottom: 20px; display: inline-block; color: #0366d6; text-decoration: none; }
-        .back:hover { text-decoration: underline; }
-        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e1e4e8; }
-        h1 { border-bottom: 1px solid #eaecef; padding-bottom: 10px; margin-top: 0; color: #24292e; }
-
-       
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            max-width: 900px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            background: #f6f8fa; 
+            color: #24292e; 
         }
+        .back-link { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: #0366d6; 
+            text-decoration: none; 
+            font-weight: bold; 
+        }
+        .back-link:hover { text-decoration: underline; }
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 8px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); 
+            border: 1px solid #e1e4e8; 
+        }
+        h1 { margin-top: 0; color: #24292e; }
+        hr { border: 0; border-top: 1px solid #e1e4e8; margin: 25px 0; }
     </style>
 </head>
 <body>
-    <a href="index.html" class="back">← Accueil</a>
-    <div class="container">
+
+    <a href="index.html" class="back-link">← Accueil</a>
+
+    <div class="card">
         <h1>🤝 Suivi Philanthropie</h1>
         <p>Espace de discussion pour la gestion et le suivi de nos projets de philanthropie.</p>
-        <hr style="border: 0; border-top: 1px solid #e1e4e8; margin: 30px 0;">
-        
-        <!-- Début du bloc de commentaires Giscus -->
-<div style="margin-top: 40px; background: white; padding: 25px; border-radius: 8px; border: 1px solid #e1e4e8; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-  <h2 style="margin-top: 0; margin-bottom: 20px; color: #24292e;">💬 Espace d'échange</h2>
 
-  <script src="https://giscus.app/client.js"
-          data-repo="gogoulet/aresgiscus"
-          data-repo-id="VOTRE_REPO_ID"
-          data-category="General"
-          data-category-id="VOTRE_CATEGORY_ID"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="light"
-          data-lang="fr"
-          crossorigin="anonymous"
-          async>
-  </script>
-</div>
-<!-- Fin du bloc de commentaires Giscus -->
+        <hr>
+
+        <!-- EMPLACEMENT DU SCRIPT GISCUS -->
+        <script src="https://giscus.app/client.js"
+                data-repo="gogoulet/aresgiscus"
+                data-repo-id="R_kgDOTYdVRw"
+                data-category="General"
+                data-category-id="DIC_kwDOTYdVR84DBMYb"
+                data-mapping="pathname"
+                data-strict="0"
+                data-reactions-enabled="1"
+                data-emit-metadata="0"
+                data-input-position="bottom"
+                data-theme="preferred_color_scheme"
+                data-lang="fr"
+                crossorigin="anonymous"
+                async>
+        </script>
     </div>
+
 </body>
 </html>
