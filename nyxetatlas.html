@@ -168,7 +168,7 @@
 
     <!-- Script Supabase -->
     <script>
-        const SUPABASE_URL = 'https://ctshdbkocntodhxtxafr.supabase.co';[cite: 9]
+        const SUPABASE_URL = 'https://ctshdbkocntodhxtxafr.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_CsP6jpQNiAnju_EjsE1XJw_eaJT4pKz';
         const SECTION_ID = 'nyxetatlas';
 
@@ -213,6 +213,8 @@
 
         document.getElementById('forumForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
+
             const statusDiv = document.getElementById('forumStatus');
             const btn = document.getElementById('btnSubmit');
             
@@ -228,6 +230,7 @@
                     method: 'POST',
                     headers: HEADERS,
                     body: JSON.stringify({
+                        id: Date.now(),
                         section: SECTION_ID,
                         auteur: auteur,
                         message: message
@@ -260,8 +263,3 @@
     </script>
 </body>
 </html>
-```<FollowUp>
-
-<ElicitationsGroup>
-</ElicitationsGroup>
-</FollowUp>
