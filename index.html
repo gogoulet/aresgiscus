@@ -4,6 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ares World - Suivi de Projets</title>
+
+    <!-- Script de validation d'accès par invitation -->
+    <script>
+        (function() {
+            // Clé / Code d'invitation secret
+            const CODE_INVITATION_VALIDE = "AresOpSec2026";
+
+            // 1. Vérification si le token est dans l'URL (ex: index.html?token=AresOpSec2026)
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenUrl = urlParams.get('token');
+
+            if (tokenUrl === CODE_INVITATION_VALIDE) {
+                sessionStorage.setItem("forum_invite_token", tokenUrl);
+            }
+
+            // 2. Vérification du token en session ou demande de saisie
+            let sessionToken = sessionStorage.getItem("forum_invite_token");
+
+            if (sessionToken !== CODE_INVITATION_VALIDE) {
+                const saisie = prompt("Accès restreint. Veuillez entrer votre code d'invitation :");
+                if (saisie === CODE_INVITATION_VALIDE) {
+                    sessionStorage.setItem("forum_invite_token", saisie);
+                    sessionToken = saisie;
+                } else {
+                    // Masquer le contenu si le code est erroné
+                    document.addEventListener("DOMContentLoaded", () => {
+                        document.body.innerHTML = `
+                            <div style="font-family: -apple-system, sans-serif; text-align: center; margin-top: 100px; padding: 20px;">
+                                <h2 style="color: #d73a49;">Accès non autorisé</h2>
+                                <p style="color: #586069;">Cette plateforme est accessible uniquement sur invitation avec un code valide.</p>
+                            </div>
+                        `;
+                    });
+                    return;
+                }
+            }
+
+            // 3. Propagation automatique du token sur les liens internes
+            document.addEventListener("DOMContentLoaded", () => {
+                const currentToken = sessionStorage.getItem("forum_invite_token");
+                if (currentToken) {
+                    document.querySelectorAll('a[href$=".html"]').forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (!href.includes('token=')) {
+                            const separator = href.includes('?') ? '&' : '?';
+                            link.setAttribute('href', `${href}${separator}token=${encodeURIComponent(currentToken)}`);
+                        }
+                    });
+                }
+            });
+        })();
+    </script>
+
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
@@ -59,7 +112,7 @@
         <p>Espace d'échange et historique des projets</p>
     </div>
 
-    <!-- Début de la grille corrigée -->
+    <!-- Début de la grille -->
     <div class="grid">
         
         <div class="card">
