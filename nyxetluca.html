@@ -4,45 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suivi - Nyx et Luca</title>
+
+    <!-- Script de vérification du code d'invitation -->
+    <script>
+        (function() {
+            const CODE_INVITATION_VALIDE = "AresOpSec2026";
+
+            // Vérification si le token est dans l'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const tokenUrl = urlParams.get('token');
+
+            if (tokenUrl === CODE_INVITATION_VALIDE) {
+                sessionStorage.setItem("forum_invite_token", tokenUrl);
+            }
+
+            // Vérification du token en session
+            let sessionToken = sessionStorage.getItem("forum_invite_token");
+
+            if (sessionToken !== CODE_INVITATION_VALIDE) {
+                const saisie = prompt("Accès restreint. Veuillez entrer votre code d'invitation :");
+                if (saisie === CODE_INVITATION_VALIDE) {
+                    sessionStorage.setItem("forum_invite_token", saisie);
+                    sessionToken = saisie;
+                } else {
+                    document.addEventListener("DOMContentLoaded", () => {
+                        document.body.innerHTML = `
+                            <div style="font-family: -apple-system, sans-serif; text-align: center; margin-top: 100px; padding: 20px;">
+                                <h2 style="color: #d73a49;">Accès non autorisé</h2>
+                                <p style="color: #586069;">Cette plateforme est accessible uniquement sur invitation avec un code valide.</p>
+                            </div>
+                        `;
+                    });
+                    return;
+                }
+            }
+
+            // Conservation du token sur le lien Retour
+            document.addEventListener("DOMContentLoaded", () => {
+                const currentToken = sessionStorage.getItem("forum_invite_token");
+                if (currentToken) {
+                    document.querySelectorAll('a[href$=".html"]').forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (!href.includes('token=')) {
+                            const separator = href.includes('?') ? '&' : '?';
+                            link.setAttribute('href', `${href}${separator}token=${encodeURIComponent(currentToken)}`);
+                        }
+                    });
+                }
+            });
+        })();
+    </script>
+
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f6f8fa; color: #24292e; }
-        .back { margin-bottom: 20px; display: inline-block; color: #0366d6; text-decoration: none; }
+        .back { margin-bottom: 20px; display: inline-block; color: #0366d6; text-decoration: none; font-weight: bold; }
         .back:hover { text-decoration: underline; }
         .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e1e4e8; }
         h1 { border-bottom: 1px solid #eaecef; padding-bottom: 10px; margin-top: 0; color: #24292e; }
-
-        
-        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back">← Accueil</a>
+    
     <div class="container">
         <h1>🐺 Nyx et Luca</h1>
-        <p>Espace de discussion, suivi et historique pour les projets Nyx et Luca.</p>
+        <p>Discussions, coordination et historique pour NyxEtLuca.</p>
+        
         <hr style="border: 0; border-top: 1px solid #e1e4e8; margin: 30px 0;">
         
-        <!-- Début du bloc de commentaires Giscus -->
-<div style="margin-top: 40px; background: white; padding: 25px; border-radius: 8px; border: 1px solid #e1e4e8; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-  <h2 style="margin-top: 0; margin-bottom: 20px; color: #24292e;">💬 Espace d'échange</h2>
+        <!-- COMPOSANT FORUM POCKETBASE -->
+        <div id="forumContainer" style="margin-top: 20px;">
+            <h2 style="margin-top: 0; margin-bottom: 20px; color: #24292e;">💬 Espace d'échange</h2>
 
-  <script src="https://giscus.app/client.js"
-          data-repo="gogoulet/aresgiscus"
-          data-repo-id="VOTRE_REPO_ID"
-          data-category="General"
-          data-category-id="VOTRE_CATEGORY_ID"
-          data-mapping="pathname"
-          data-strict="0"
-          data-reactions-enabled="1"
-          data-emit-metadata="0"
-          data-input-position="bottom"
-          data-theme="light"
-          data-lang="fr"
-          crossorigin="anonymous"
-          async>
-  </script>
-</div>
-<!-- Fin du bloc de commentaires Giscus -->
+            <!-- Liste des messages -->
+            <div id="messagesList" style="margin-bottom: 25px;">
+                <p style="color: #666;">Chargement des messages...</p>
+            </div>
+
+            <!-- Formulaire d'envoi -->
+            <div style="background: #f6f8fa; padding: 20px; border-radius: 6px; border: 1px solid #d0d7de;">
+                <h3 style="margin-top: 0; font-size: 1.1em; color: #24292e;">Ajouter un message</h3>
+                <form id="forumForm">
+                    <div style="margin-bottom: 12px;">
+                        <input type="text" id="forumAuthor" placeholder="Votre nom ou pseudonyme" required 
+                               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <textarea id="forumMessage" placeholder="Écrivez votre message ici..." required 
+                                  style="width: 100%; height: 90px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
+                    </div>
+                    <button type="submit" id="btnSubmit" 
+                            style="background: #0366d6; color: white; font-weight: bold; border: none; padding: 10px 18px; border-radius: 4px; cursor: pointer;">
+                        Publier le message
+                    </button>
+                </form>
+                <div id="forumStatus" style="margin-top: 10px; font-size: 0.9em;"></div>
+            </div>
+        </div>
+        <!-- FIN COMPOSANT FORUM -->
     </div>
+
+    <script>
+        // Configuration PocketBase
+        const POCKETBASE_URL = 'https://ares-pb-backend.onrender.com';
+        const SECTION_ID = 'nyxetluca'; // Identifiant de la section
+
+        // Charger les messages au chargement de la page
+        async function loadMessages() {
+            const listDiv = document.getElementById('messagesList');
+            try {
+                const res = await fetch(`${POCKETBASE_URL}/api/collections/commentaires/records?filter=(section='${SECTION_ID}')&sort=-created`);
+                const data = await res.json();
+
+                if (!data.items || data.items.length === 0) {
+                    listDiv.innerHTML = '<p style="color: #777;">Aucun message pour le moment. Soyez le premier à commenter !</p>';
+                    return;
+                }
+
+                listDiv.innerHTML = data.items.map(item => `
+                    <div style="background: #fff; border: 1px solid #e1e4e8; border-radius: 6px; padding: 12px 16px; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                            <strong style="color: #24292e;">${escapeHtml(item.auteur)}</strong>
+                            <small style="color: #586069;">${new Date(item.created).toLocaleString('fr-FR')}</small>
+                        </div>
+                        <div style="color: #24292e; white-space: pre-wrap;">${escapeHtml(item.message)}</div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                listDiv.innerHTML = '<p style="color: red;">Erreur de chargement des discussions.</p>';
+            }
+        }
+
+        // Publier un nouveau message
+        document.getElementById('forumForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const statusDiv = document.getElementById('forumStatus');
+            const btn = document.getElementById('btnSubmit');
+            
+            const auteur = document.getElementById('forumAuthor').value;
+            const message = document.getElementById('forumMessage').value;
+
+            btn.disabled = true;
+            statusDiv.style.color = '#333';
+            statusDiv.innerText = 'Publication en cours...';
+
+            try {
+                const res = await fetch(`${POCKETBASE_URL}/api/collections/commentaires/records`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        section: SECTION_ID,
+                        auteur: auteur,
+                        message: message
+                    })
+                });
+
+                if (res.ok) {
+                    statusDiv.style.color = 'green';
+                    statusDiv.innerText = 'Message publié !';
+                    document.getElementById('forumMessage').value = '';
+                    loadMessages();
+                } else {
+                    statusDiv.style.color = 'red';
+                    statusDiv.innerText = 'Erreur lors de la publication.';
+                }
+            } catch (err) {
+                statusDiv.style.color = 'red';
+                statusDiv.innerText = 'Impossible de contacter le serveur.';
+            } finally {
+                btn.disabled = false;
+            }
+        });
+
+        // Protection XSS
+        function escapeHtml(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Initialisation
+        loadMessages();
+    </script>
 </body>
 </html>
+```<FollowUp>
+
+<ElicitationsGroup>
+</ElicitationsGroup>
+</FollowUp>
